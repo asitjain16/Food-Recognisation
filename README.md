@@ -1,43 +1,49 @@
 # 🍔 Food Recognition App
 
-A modern web application that uses deep learning to recognize food items from images and provide detailed nutritional information including calorie estimates.
+A modern, AI-powered web application that recognizes food items from images and provides detailed nutritional information including calorie estimates. Built with PyTorch and integrated with the Food-101 dataset.
 
 ## ✨ Features
 
 - **Real-time Food Recognition**: Upload food images through an intuitive web interface
-- **AI-Powered Analysis**: Uses TensorFlow for accurate food classification
-- **Calorie Estimation**: Get detailed calorie information for recognized foods
+- **AI-Powered Analysis**: Uses PyTorch with EfficientNet-B0 for accurate food classification
+- **Smart ImageNet Mapping**: Hybrid approach using ImageNet predictions for better accuracy even without training
+- **Calorie Estimation**: Get detailed calorie information for 101+ food categories
 - **Nutritional Breakdown**: View protein, carbs, fat, and fiber content
-- **Modern UI**: Responsive design with Bootstrap and Font Awesome icons
+- **Non-Food Detection**: Automatically detects and rejects non-food images
+- **Modern UI**: Responsive design with Bootstrap 5 and Font Awesome icons
 - **Drag & Drop**: Easy image upload with drag-and-drop functionality
+- **Training Support**: Complete training pipeline for Food-101 dataset
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.11+ with Flask
-- **AI/ML**: TensorFlow for deep learning
+- **Backend**: Python 3.9+ with Flask
+- **AI/ML**: PyTorch with EfficientNet-B0 architecture
+- **Model Library**: Timm (PyTorch Image Models)
 - **Frontend**: Bootstrap 5, HTML5, JavaScript
-- **Image Processing**: Pillow (PIL)
+- **Image Processing**: Pillow (PIL), torchvision
 - **Dataset**: Food-101 dataset via Kaggle Hub
+- **Model Training**: PyTorch with DataLoader, transforms, and augmentation
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.11 or higher
+- Python 3.9 or higher
 - pip package manager
+- (Optional) GPU support for faster training and inference
 
 ### Installation
 
-1. **Clone or download this project**
-
-2. **Run the setup script**:
+1. **Clone the repository**:
    ```bash
-   python setup.py
+   git clone https://github.com/asitjain16/Food-Recognisation.git
+   cd Food-Recognisation
    ```
-   This will:
-   - Install all required dependencies
-   - Download the Food-101 dataset
-   - Create necessary directories
+
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. **Start the application**:
    ```bash
@@ -46,29 +52,17 @@ A modern web application that uses deep learning to recognize food items from im
 
 4. **Open your browser** and navigate to:
    ```
-   http://localhost:5000
+   http://localhost:5001
    ```
-
-### Manual Installation (Alternative)
-
-If you prefer manual setup:
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Create directories
-mkdir static uploads models
-
-# Run the app
-python app.py
-```
+   Note: Port 5001 is used to avoid conflicts with macOS AirPlay Receiver on port 5000.
 
 ## 📱 How to Use
 
+### Basic Usage
+
 1. **Upload an Image**: 
    - Click the upload area or drag and drop a food image
-   - Supported formats: JPG, PNG, GIF
+   - Supported formats: JPG, PNG, GIF, WEBP
    - Maximum file size: 16MB
 
 2. **Get Results**:
@@ -80,92 +74,199 @@ python app.py
 3. **Try More Images**:
    - Click "Try Another Image" to analyze more foods
 
+### Training the Model (Optional but Recommended)
+
+For improved accuracy, train the model on the Food-101 dataset:
+
+1. **Download the dataset** (if not already downloaded):
+   ```bash
+   python load_kaggle_dataset.py
+   ```
+   Note: Requires Kaggle API credentials. See [TRAINING.md](TRAINING.md) for details.
+
+2. **Train the model**:
+   ```bash
+   python train_model.py
+   ```
+   This will train the model for 10 epochs (takes ~2-4 hours on CPU, ~30-60 min on GPU).
+
+3. **Restart the app** - The trained model will be automatically loaded:
+   ```bash
+   python app.py
+   ```
+
 ## 🏗️ Project Structure
 
 ```
-food-recognition-app/
-├── app.py                 # Main Flask application
-├── food_model.py          # TensorFlow model and prediction logic
-├── calorie_data.py        # Nutritional database
-├── requirements.txt       # Python dependencies
-├── setup.py              # Automated setup script
+Food-Recognisation/
+├── app.py                      # Main Flask application
+├── food_model.py               # PyTorch model with ImageNet mapping
+├── train_model.py              # Training script for Food-101 dataset
+├── calorie_data.py             # Nutritional database
+├── load_kaggle_dataset.py      # Dataset downloader
+├── requirements.txt            # Python dependencies
+├── setup.py                    # Setup script
 ├── templates/
-│   └── index.html        # Main web interface
-└── README.md             # This file
+│   └── index.html              # Web interface
+├── models/                     # Trained models (created after training)
+│   ├── food101_best.pth        # Best model checkpoint
+│   └── food101_final.pth       # Final model checkpoint
+├── README.md                   # This file
+├── TRAINING.md                 # Training guide
+├── IMPROVEMENTS.md             # Improvement documentation
+└── .gitignore                 # Git ignore rules
 ```
 
 ## 🧠 How It Works
 
+### Architecture
+
 1. **Image Upload**: Users upload food images through the web interface
-2. **Preprocessing**: Images are resized and normalized for the model
-3. **AI Recognition**: TensorFlow CNN model classifies the food item
-4. **Data Lookup**: Nutritional information is retrieved from the calorie database
-5. **Results Display**: Food name, confidence, calories, and nutrition facts are shown
+2. **Preprocessing**: Images are resized to 224x224 and normalized
+3. **Dual Model Approach**:
+   - **ImageNet Model**: Uses pre-trained EfficientNet-B0 on ImageNet for accurate food detection
+   - **Food-101 Model**: Uses EfficientNet-B0 with Food-101 classifier (101 classes)
+4. **Smart Mapping**: Maps ImageNet predictions to Food-101 classes using:
+   - Direct class mappings
+   - Keyword-based matching
+   - Partial string matching
+   - Confidence-weighted scoring
+5. **Food Detection**: Validates that the image contains food (rejects non-food images)
+6. **Data Lookup**: Nutritional information retrieved from calorie database
+7. **Results Display**: Food name, confidence, calories, and nutrition facts
 
-## 🎯 Model Details
+### Model Details
 
-- **Architecture**: Convolutional Neural Network (CNN)
+- **Architecture**: EfficientNet-B0 (PyTorch)
+- **Backbone**: ImageNet pre-trained weights
+- **Classifier**: Custom Food-101 classifier (101 classes)
 - **Input Size**: 224x224 RGB images
 - **Classes**: 101 food categories from Food-101 dataset
-- **Framework**: TensorFlow/Keras
+- **Framework**: PyTorch with Timm library
+
+## 🎯 Accuracy & Performance
+
+### Without Training (ImageNet Mapping)
+- Uses ImageNet pre-trained model predictions
+- Maps ImageNet classes to Food-101 classes
+- Accuracy: Moderate (~40-60% for common foods)
+- Works immediately without training
+
+### With Training (Food-101 Dataset)
+- Trained on Food-101 dataset
+- Validation Accuracy: ~60-80% (depending on training epochs)
+- Much better accuracy for all 101 food classes
+- Recommended for production use
 
 ## 📊 Supported Foods
 
-The app recognizes 101 different food categories including:
-- Main dishes (pizza, hamburger, steak, etc.)
-- Desserts (cheesecake, chocolate cake, ice cream, etc.)
-- International cuisine (sushi, pad thai, ramen, etc.)
-- Appetizers and sides (french fries, caesar salad, etc.)
+The app recognizes **101 different food categories** including:
+
+- **Fast Food**: Pizza, Hamburger, Hot Dog, French Fries, Tacos
+- **Desserts**: Cheesecake, Chocolate Cake, Ice Cream, Donuts, Waffles, Pancakes
+- **International**: Sushi, Ramen, Pad Thai, Tacos, Paella, Pho
+- **Meats**: Steak, Baby Back Ribs, Chicken Curry, Pork Chop
+- **Salads**: Caesar Salad, Greek Salad, Caprese Salad
+- **Pastas**: Spaghetti Bolognese, Lasagna, Ravioli, Macaroni and Cheese
+- **And many more!**
+
+See `food_model.py` for the complete list of 101 food classes.
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-You can customize the app behavior with these environment variables:
+You can customize the app behavior:
 
-- `FLASK_ENV`: Set to `development` for debug mode
-- `FLASK_PORT`: Change the port (default: 5000)
-- `MAX_CONTENT_LENGTH`: Maximum upload size in bytes
+- `FLASK_ENV`: Set to `development` for debug mode (default: development)
+- `FLASK_PORT`: Change the port (default: 5001)
+- `MAX_CONTENT_LENGTH`: Maximum upload size in bytes (default: 16MB)
 
-### Model Customization
+### Model Path
 
-To use your own trained model:
+The app automatically looks for trained models in `./models/food101_best.pth`. To use a custom model:
 
-1. Replace the model creation in `food_model.py`
-2. Update the class names list
-3. Modify the preprocessing if needed
+```python
+from food_model import FoodRecognitionModel
+
+model = FoodRecognitionModel(model_path='./path/to/your/model.pth')
+```
+
+## 📚 Documentation
+
+- **[TRAINING.md](TRAINING.md)**: Complete guide for training the model
+- **[IMPROVEMENTS.md](IMPROVEMENTS.md)**: Detailed list of improvements and features
+- **[GIT_SETUP.md](GIT_SETUP.md)**: Git and GitHub setup instructions
 
 ## 🚨 Troubleshooting
 
 ### Common Issues
 
+**Port Already in Use**:
+- Port 5000 is often used by macOS AirPlay Receiver
+- The app uses port 5001 by default
+- Change port in `app.py` if needed: `app.run(port=YOUR_PORT)`
+
+**Model Loading Fails**:
+- Ensure PyTorch and dependencies are installed: `pip install -r requirements.txt`
+- Check that models directory exists: `mkdir -p models`
+
+**Low Accuracy**:
+- Train the model on Food-101 dataset for better accuracy
+- See [TRAINING.md](TRAINING.md) for training instructions
+
 **Dataset Download Fails**:
-- Check your internet connection
-- Ensure you have a Kaggle account (may be required)
-- The app will use fallback food classes if download fails
+- Requires Kaggle API credentials
+- See `load_kaggle_dataset.py` for setup instructions
+- App will work with ImageNet mapping even without dataset
 
 **Memory Issues**:
-- Reduce image size before upload
-- Close other applications to free up RAM
-
-**Slow Predictions**:
-- Consider using a GPU-enabled TensorFlow installation
-- Optimize the model architecture for your hardware
+- Reduce batch size in `train_model.py` (default: 32)
+- Use smaller image sizes
+- Consider using a GPU for training
 
 ### Error Messages
 
 - `No file uploaded`: Make sure to select an image file
-- `Invalid file type`: Only JPG, PNG, and GIF are supported
+- `Invalid file type`: Only JPG, PNG, GIF, and WEBP are supported
 - `File too large`: Reduce image size (max 16MB)
+- `This image does not appear to contain food`: Upload a food image (non-food images are rejected)
+
+## 🔬 Advanced Features
+
+### ImageNet Mapping System
+
+The app uses a sophisticated mapping system to translate ImageNet predictions to Food-101 classes:
+
+1. **Direct Mappings**: 40+ direct ImageNet → Food-101 mappings
+2. **Keyword Matching**: Flexible keyword-based matching for variations
+3. **Partial Matching**: Finds matches even with partial class name overlap
+4. **Confidence Weighting**: ImageNet predictions get 90% weight, Food-101 gets 10%
+
+### Non-Food Detection
+
+The app intelligently detects non-food images:
+- Checks ImageNet top predictions for food-related indicators
+- Rejects images with strong non-food signals (people, animals, objects)
+- Provides clear error messages for rejected images
+
+### Training Features
+
+- Automatic train/validation split (80/20)
+- Data augmentation (random crops, flips, rotations, color jitter)
+- Learning rate scheduling (ReduceLROnPlateau)
+- Best model checkpointing
+- Training history logging
 
 ## 🤝 Contributing
 
-Feel free to contribute to this project:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
@@ -173,11 +274,21 @@ This project is open source and available under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- Food-101 dataset by Bossard, Guillaumin & Van Gool
-- TensorFlow team for the deep learning framework
-- Bootstrap team for the UI framework
-- Kaggle for dataset hosting
+- **Food-101 Dataset**: Bossard, Guillaumin & Van Gool - ETH Zurich
+- **PyTorch Team**: For the deep learning framework
+- **Timm Library**: For EfficientNet and model utilities
+- **Kaggle**: For dataset hosting and Kaggle Hub
+- **Bootstrap Team**: For the UI framework
+- **Flask Team**: For the web framework
+
+## 📞 Support
+
+For issues, questions, or contributions:
+- Open an issue on [GitHub](https://github.com/asitjain16/Food-Recognisation/issues)
+- Check the documentation files (TRAINING.md, IMPROVEMENTS.md)
 
 ---
 
 **Happy Food Recognition! 🍕🥗🍰**
+
+Built with ❤️ using PyTorch and Flask
