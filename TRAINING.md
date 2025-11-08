@@ -58,7 +58,7 @@ Epoch 1/10
 ------------------------------------------------------------
 Training: 100%|████████| 2500/2500 [10:30<00:00, loss=2.3456, acc=45.23%]
 Validation: 100%|████████| 625/625 [02:15<00:00, loss=1.8765, acc=58.45%]
-✅ Saved best model (val_acc: 58.45%)
+ Saved best model (val_acc: 58.45%)
 Train Loss: 2.3456, Train Acc: 45.23%
 Val Loss: 1.8765, Val Acc: 58.45%
 ```
