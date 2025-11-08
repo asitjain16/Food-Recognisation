@@ -30,7 +30,7 @@ def load_kaggle_dataset():
         dataset_path = kagglehub.dataset_download("kmader/food41")
         
         print("\n" + "=" * 60)
-        print(f"✅ Dataset downloaded successfully!")
+        print(f" Dataset downloaded successfully!")
         print(f"Location: {dataset_path}")
         print("=" * 60)
         
