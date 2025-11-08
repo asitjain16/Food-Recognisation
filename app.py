@@ -13,9 +13,9 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 print("Initializing food recognition model...")
 try:
     food_model = FoodRecognitionModel()
-    print("✅ Model initialized successfully!")
+    print(" Model initialized successfully!")
 except Exception as e:
-    print(f"❌ Error initializing model: {e}")
+    print(f" Error initializing model: {e}")
     food_model = None
 
 @app.route('/')
@@ -175,3 +175,4 @@ def get_calorie_info_smart(food_name):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
+
