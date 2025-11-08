@@ -1,12 +1,12 @@
-# 🍔 Food Recognition App
+# Food Recognition App
 
 A modern, AI-powered web application that recognizes food items from images and provides detailed nutritional information including calorie estimates. Built with PyTorch and integrated with the Food-101 dataset.
 
-## ✨ Features
+## Features
 
 - **Real-time Food Recognition**: Upload food images through an intuitive web interface
-- **AI-Powered Analysis**: Uses PyTorch with EfficientNet-B0 for accurate food classification
-- **Smart ImageNet Mapping**: Hybrid approach using ImageNet predictions for better accuracy even without training
+- **AI-Powered Analysis**: Uses PyTorch with ResNet50 deep learning architecture for accurate food classification
+- **Smart ImageNet Mapping**: Hybrid approach using ImageNet predictions for better accuracy
 - **Calorie Estimation**: Get detailed calorie information for 101+ food categories
 - **Nutritional Breakdown**: View protein, carbs, fat, and fiber content
 - **Non-Food Detection**: Automatically detects and rejects non-food images
@@ -14,17 +14,17 @@ A modern, AI-powered web application that recognizes food items from images and 
 - **Drag & Drop**: Easy image upload with drag-and-drop functionality
 - **Training Support**: Complete training pipeline for Food-101 dataset
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend**: Python 3.9+ with Flask
-- **AI/ML**: PyTorch with EfficientNet-B0 architecture
+- **AI/ML**: PyTorch with ResNet50 architecture (deep CNN for image recognition)
 - **Model Library**: Timm (PyTorch Image Models)
 - **Frontend**: Bootstrap 5, HTML5, JavaScript
 - **Image Processing**: Pillow (PIL), torchvision
 - **Dataset**: Food-101 dataset via Kaggle Hub
 - **Model Training**: PyTorch with DataLoader, transforms, and augmentation
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -95,7 +95,7 @@ For improved accuracy, train the model on the Food-101 dataset:
    python app.py
    ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 Food-Recognisation/
@@ -117,15 +117,15 @@ Food-Recognisation/
 └── .gitignore                 # Git ignore rules
 ```
 
-## 🧠 How It Works
+## How It Works
 
 ### Architecture
 
 1. **Image Upload**: Users upload food images through the web interface
 2. **Preprocessing**: Images are resized to 224x224 and normalized
 3. **Dual Model Approach**:
-   - **ImageNet Model**: Uses pre-trained EfficientNet-B0 on ImageNet for accurate food detection
-   - **Food-101 Model**: Uses EfficientNet-B0 with Food-101 classifier (101 classes)
+   - **ImageNet Model**: Uses pre-trained ResNet50 on ImageNet for accurate food detection
+   - **Food-101 Model**: Uses ResNet50 with Food-101 classifier (101 classes)
 4. **Smart Mapping**: Maps ImageNet predictions to Food-101 classes using:
    - Direct class mappings
    - Keyword-based matching
@@ -144,7 +144,11 @@ Food-Recognisation/
 - **Classes**: 101 food categories from Food-101 dataset
 - **Framework**: PyTorch with Timm library
 
-## 🎯 Accuracy & Performance
+### Deep Learning Model
+
+We're using a ResNet50 architecture, which is a deep convolutional neural network (CNN) that's well-suited for image recognition tasks. ResNet50 (Residual Network with 50 layers) is a powerful architecture that uses residual connections to enable training of very deep networks, making it highly effective for complex image classification problems like food recognition. The model leverages transfer learning by using pre-trained ImageNet weights, which are then fine-tuned on the Food-101 dataset to achieve optimal performance for food classification.
+
+## Accuracy & Performance
 
 ### Without Training (ImageNet Mapping)
 - Uses ImageNet pre-trained model predictions
@@ -158,7 +162,7 @@ Food-Recognisation/
 - Much better accuracy for all 101 food classes
 - Recommended for production use
 
-## 📊 Supported Foods
+## Supported Foods
 
 The app recognizes **101 different food categories** including:
 
@@ -172,7 +176,7 @@ The app recognizes **101 different food categories** including:
 
 See `food_model.py` for the complete list of 101 food classes.
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -192,13 +196,13 @@ from food_model import FoodRecognitionModel
 model = FoodRecognitionModel(model_path='./path/to/your/model.pth')
 ```
 
-## 📚 Documentation
+## Documentation
 
 - **[TRAINING.md](TRAINING.md)**: Complete guide for training the model
 - **[IMPROVEMENTS.md](IMPROVEMENTS.md)**: Detailed list of improvements and features
 - **[GIT_SETUP.md](GIT_SETUP.md)**: Git and GitHub setup instructions
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -232,7 +236,7 @@ model = FoodRecognitionModel(model_path='./path/to/your/model.pth')
 - `File too large`: Reduce image size (max 16MB)
 - `This image does not appear to contain food`: Upload a food image (non-food images are rejected)
 
-## 🔬 Advanced Features
+## Advanced Features
 
 ### ImageNet Mapping System
 
@@ -258,7 +262,7 @@ The app intelligently detects non-food images:
 - Best model checkpointing
 - Training history logging
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -268,11 +272,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Food-101 Dataset**: Bossard, Guillaumin & Van Gool - ETH Zurich
 - **PyTorch Team**: For the deep learning framework
@@ -281,7 +285,7 @@ This project is open source and available under the MIT License.
 - **Bootstrap Team**: For the UI framework
 - **Flask Team**: For the web framework
 
-## 📞 Support
+## Support
 
 For issues, questions, or contributions:
 - Open an issue on [GitHub](https://github.com/asitjain16/Food-Recognisation/issues)
@@ -289,6 +293,7 @@ For issues, questions, or contributions:
 
 ---
 
-**Happy Food Recognition! 🍕🥗🍰**
-
-Built with ❤️ using PyTorch and Flask
+- Project By 
+Asit Jain (M25DE1049)
+Avinash Singh (M25DE1024)
+Prashnat Kumar Mishra (M25DE1063)
