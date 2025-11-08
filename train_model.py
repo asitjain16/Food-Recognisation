@@ -34,7 +34,7 @@ def find_dataset_path():
     for path in possible_paths:
         images_path = os.path.join(path, 'images')
         if os.path.exists(images_path):
-            print(f"✅ Found dataset at: {path}")
+            print(f" Found dataset at: {path}")
             return path
     
     # Try to download if not found
@@ -44,7 +44,7 @@ def find_dataset_path():
         dataset_path = kagglehub.dataset_download("kmader/food41")
         return dataset_path
     except Exception as e:
-        print(f"❌ Could not find or download dataset: {e}")
+        print(f" Could not find or download dataset: {e}")
         return None
 
 def load_dataset(data_dir):
@@ -228,9 +228,9 @@ def main():
     print("\nLoading dataset...")
     try:
         train_loader, val_loader, class_names = load_dataset(dataset_path)
-        print(f"✅ Dataset loaded: {len(train_loader.dataset)} training samples, {len(val_loader.dataset)} validation samples")
+        print(f" Dataset loaded: {len(train_loader.dataset)} training samples, {len(val_loader.dataset)} validation samples")
     except Exception as e:
-        print(f"❌ Error loading dataset: {e}")
+        print(f" Error loading dataset: {e}")
         return
     
     # Create model
@@ -288,7 +288,7 @@ def main():
                 'val_acc': val_acc,
                 'class_names': class_names
             }, best_model_path)
-            print(f"✅ Saved best model (val_acc: {val_acc:.2f}%)")
+            print(f"Saved best model (val_acc: {val_acc:.2f}%)")
         
         print(f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.2f}%")
         print(f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.2f}%")
