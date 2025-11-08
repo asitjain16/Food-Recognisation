@@ -56,7 +56,7 @@ A modern, AI-powered web application that recognizes food items from images and 
    ```
    Note: Port 5001 is used to avoid conflicts with macOS AirPlay Receiver on port 5000.
 
-## 📱 How to Use
+## How to Use
 
 ### Basic Usage
 
@@ -297,3 +297,4 @@ For issues, questions, or contributions:
 Asit Jain (M25DE1049)
 Avinash Singh (M25DE1024)
 Prashnat Kumar Mishra (M25DE1063)
+
