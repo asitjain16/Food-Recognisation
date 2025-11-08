@@ -14,9 +14,9 @@ def install_requirements():
     print("Installing required packages...")
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-        print("✅ Requirements installed successfully!")
+        print(" Requirements installed successfully!")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Error installing requirements: {e}")
+        print(f" Error installing requirements: {e}")
         return False
     return True
 
@@ -25,10 +25,10 @@ def download_dataset():
     print("Downloading Food-101 dataset...")
     try:
         path = kagglehub.dataset_download("dansbecker/food-101")
-        print(f"✅ Dataset downloaded to: {path}")
+        print(f" Dataset downloaded to: {path}")
         return path
     except Exception as e:
-        print(f"❌ Error downloading dataset: {e}")
+        print(f" Error downloading dataset: {e}")
         return None
 
 def create_directories():
@@ -37,10 +37,10 @@ def create_directories():
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
-            print(f"✅ Created directory: {directory}")
+            print(f" Created directory: {directory}")
 
 def main():
-    print("🍔 Setting up Food Recognition App...")
+    print(" Setting up Food Recognition App...")
     print("=" * 50)
     
     # Create directories
@@ -48,19 +48,20 @@ def main():
     
     # Install requirements
     if not install_requirements():
-        print("❌ Setup failed during requirements installation")
+        print(" Setup failed during requirements installation")
         return
     
     # Download dataset
     dataset_path = download_dataset()
     if not dataset_path:
-        print("⚠️  Dataset download failed, but app can still run with fallback classes")
+        print("  Dataset download failed, but app can still run with fallback classes")
     
     print("\n" + "=" * 50)
-    print("🎉 Setup completed!")
+    print(" Setup completed!")
     print("\nTo run the application:")
     print("  python app.py")
     print("\nThen open your browser to: http://localhost:5000")
 
 if __name__ == "__main__":
+
     main()
