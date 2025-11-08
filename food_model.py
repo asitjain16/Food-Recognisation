@@ -223,12 +223,12 @@ class FoodRecognitionModel:
                 if isinstance(checkpoint, dict):
                     if 'model_state_dict' in checkpoint:
                         self.model.load_state_dict(checkpoint['model_state_dict'])
-                        print(f"✅ Loaded trained model (val_acc: {checkpoint.get('val_acc', 'N/A')}%)")
+                        print(f" Loaded trained model (val_acc: {checkpoint.get('val_acc', 'N/A')}%)")
                         if 'class_names' in checkpoint:
                             # Ensure class names match
                             checkpoint_classes = checkpoint['class_names']
                             if len(checkpoint_classes) == len(self.class_names):
-                                print("✅ Class names match!")
+                                print(" Class names match!")
                     elif 'state_dict' in checkpoint:
                         self.model.load_state_dict(checkpoint['state_dict'])
                     else:
@@ -244,9 +244,9 @@ class FoodRecognitionModel:
                     if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
                         self.model.load_state_dict(checkpoint['model_state_dict'])
                         val_acc = checkpoint.get('val_acc', 'N/A')
-                        print(f"✅ Loaded trained Food-101 model (val_acc: {val_acc}%)")
+                        print(f" Loaded trained Food-101 model (val_acc: {val_acc}%)")
                         if 'class_names' in checkpoint:
-                            print("✅ Using trained model class names")
+                            print(" Using trained model class names")
                         # Update thresholds for trained model
                         self.confidence_threshold = 0.15  # More reasonable for trained model
                         self.food_vs_nonfood_threshold = 0.10
@@ -256,7 +256,7 @@ class FoodRecognitionModel:
                         self.model_trained = True
                 else:
                     # Initialize with pre-trained ImageNet weights
-                    print("⚠️  No trained model found. Using ImageNet pre-trained weights with Food-101 classifier")
+                    print("  No trained model found. Using ImageNet pre-trained weights with Food-101 classifier")
                     print("   Run train_model.py to train the model on Food-101 dataset for better accuracy")
                     # Freeze early layers, fine-tune later layers
                     for param in list(self.model.parameters())[:-10]:
@@ -276,7 +276,7 @@ class FoodRecognitionModel:
                 )
             ])
             
-            print("✅ Food recognition model loaded successfully!")
+            print(" Food recognition model loaded successfully!")
             if torch.cuda.is_available():
                 print(f"   Using GPU: {torch.cuda.get_device_name(0)}")
             else:
@@ -295,9 +295,9 @@ class FoodRecognitionModel:
             url = 'https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt'
             response = urllib.request.urlopen(url, timeout=5)
             self.imagenet_classes = [line.decode('utf-8').strip() for line in response.readlines()]
-            print(f"✅ Loaded {len(self.imagenet_classes)} ImageNet classes")
+            print(f" Loaded {len(self.imagenet_classes)} ImageNet classes")
         except Exception as e:
-            print(f"⚠️  Could not load ImageNet classes: {e}")
+            print(f"  Could not load ImageNet classes: {e}")
             print("   Will use fallback food recognition")
             self.imagenet_classes = None
     
@@ -674,7 +674,7 @@ class FoodRecognitionModel:
             # For actual training, you would need to process the images
             dataset_path = kagglehub.dataset_download("kmader/food41")
             
-            print(f"✅ Dataset downloaded to: {dataset_path}")
+            print(f" Dataset downloaded to: {dataset_path}")
             return dataset_path
             
         except Exception as e:
